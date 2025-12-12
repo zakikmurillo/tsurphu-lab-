@@ -31,10 +31,14 @@ Paso 1 – Epoch tibetano de referencia
   correspondiente según Henning/TCG.
 - Codificarla como constante, por ejemplo::
 
-    EPOCH_DU_TIB = ...
-    EPOCH_ANIO   = ...
-    EPOCH_MES    = ...
-    EPOCH_DIA    = ...
+    EPOCH_TSURPHU = TibetanEpoch(
+        name="...",
+        du_tibetano=...,
+        anio_tibetano=...,
+        mes_lunar=...,
+        dia_lunar=...,
+        notes="...",
+    )
 
 - Esta elección de epoch será la base para todos los conteos posteriores.
 
@@ -42,7 +46,7 @@ Paso 2 – Contar días desde el epoch
 -----------------------------------
 - A partir de un du_tibetano cualquiera, calcular::
 
-    dias_desde_epoch = du_tibetano - EPOCH_DU_TIB
+    dias_desde_epoch = du_tibetano - EPOCH_TSURPHU.du_tibetano
 
 - Este número (entero o con pequeña fracción) se usará para avanzar o retroceder
   en la secuencia de días lunares tibetanos.
@@ -80,13 +84,53 @@ Paso 5 – Parkha y mewa (futuro)
 - Integrar esos resultados en una estructura más completa (por ejemplo,
   un TibetanDateFull) cuando el proyecto lo requiera.
 
-Estado actual: este archivo solo implementa la estructura mínima; todas las
+Estado actual: este archivo implementa la estructura mínima y define
+un epoch simbólico EPOCH_TSURPHU como marcador de posición. Todas las
 secciones anteriores están pendientes de implementación detallada.
 """
 
 from __future__ import annotations
 
+from dataclasses import dataclass
+
 from tsurphu.calendario.m2_cal import TibetanDateBasic, TibetanCalendarBackend
+
+
+# ---------------------------------------------------------------------------
+# Epoch tibetano de referencia (marcador de posición)
+# ---------------------------------------------------------------------------
+
+
+@dataclass(frozen=True)
+class TibetanEpoch:
+    """
+    Epoch tibetano de referencia para conteos relativos.
+
+    Por ahora usamos este dataclass solo como contenedor de datos.
+    Los valores concretos se rellenarán cuando extraígamos del material
+    de Henning/TCG la fecha exacta a usar.
+    """
+
+    name: str
+    du_tibetano: float | None
+    anio_tibetano: int | None
+    mes_lunar: int | None
+    dia_lunar: int | None
+    notes: str = ""
+
+
+EPOCH_TSURPHU = TibetanEpoch(
+    name="Epoch Tsurphu-Henning (pendiente de fijar)",
+    du_tibetano=None,
+    anio_tibetano=None,
+    mes_lunar=None,
+    dia_lunar=None,
+    notes=(
+        "Este epoch se fijará como la fecha tibetana de referencia usada "
+        "por Henning/TCG para el sistema Phugpa/Tsurphu. Pendiente de "
+        "cálculo exacto a partir de las tablas TCG y del libro de Henning."
+    ),
+)
 
 
 class HenningBackend(TibetanCalendarBackend):
@@ -116,7 +160,7 @@ class HenningBackend(TibetanCalendarBackend):
         - deja anio_tibetano, mes_lunar y dia_lunar como None.
 
         Más adelante aquí irán:
-        - el conteo desde un epoch tibetano,
+        - el conteo desde un epoch tibetano (EPOCH_TSURPHU),
         - el cálculo de año/mes/día lunar,
         - los días repetidos/omitidos, etc.
         """
