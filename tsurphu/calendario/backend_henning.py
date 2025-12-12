@@ -1,5 +1,5 @@
 """
-Backend Henning para M2-CAL (esqueleto).
+Backend Henning para M2-CAL (esqueleto ampliado con plan de implementación).
 
 Este módulo define la clase HenningBackend, que implementa la interfaz
 TibetanCalendarBackend definida en m2_cal, pero por ahora NO realiza
@@ -15,6 +15,73 @@ Más adelante se rellenará con el algoritmo basado en:
 
 - Henning, *Kalachakra and the Tibetan Calendar*,
 - Tablas TCG (tcg1309, tcgb1302, RD2018, etc.).
+
+PLAN DE IMPLEMENTACIÓN (mapa de trabajo):
+
+Paso 0 – Convenciones de Tsurphu
+--------------------------------
+- Usamos el DU_tibetano producido por M2-CAL (ya corregido por amanecer
+  local según la propuesta de Henning).
+- Trabajamos en primera instancia con la variante "tsurphu", que aplica
+  correcciones específicas para Bogotá/local.
+
+Paso 1 – Epoch tibetano de referencia
+-------------------------------------
+- Elegir una fecha tibetana bien establecida (año/mes/día) y su DU_tibetano
+  correspondiente según Henning/TCG.
+- Codificarla como constante, por ejemplo::
+
+    EPOCH_DU_TIB = ...
+    EPOCH_ANIO   = ...
+    EPOCH_MES    = ...
+    EPOCH_DIA    = ...
+
+- Esta elección de epoch será la base para todos los conteos posteriores.
+
+Paso 2 – Contar días desde el epoch
+-----------------------------------
+- A partir de un du_tibetano cualquiera, calcular::
+
+    dias_desde_epoch = du_tibetano - EPOCH_DU_TIB
+
+- Este número (entero o con pequeña fracción) se usará para avanzar o retroceder
+  en la secuencia de días lunares tibetanos.
+
+Paso 3 – Modelo de meses y días lunares
+---------------------------------------
+- Implementar una función interna que, dado dias_desde_epoch, recorra los meses
+  tibetanos aplicando las reglas de Henning/TCG para:
+
+  - longitud de los meses (normalmente 29/30 días),
+  - inserción de meses bisiestos (duplicados),
+  - días repetidos y omitidos.
+
+- Esta función deberá devolver:
+
+    - año tibetano (número absoluto),
+    - mes lunar (1–12, con marca de bisiesto),
+    - día lunar (1–30),
+    - tipo de día (normal, repetido, omitido).
+
+Paso 4 – Capa de 60 años y animales/elementos
+--------------------------------------------
+- A partir del año tibetano absoluto, calcular:
+
+    - rabjung (ciclo de 60 años),
+    - posición dentro del ciclo (1–60),
+    - animal del año,
+    - elemento del año,
+    - género (masculino/femenino) del año.
+
+Paso 5 – Parkha y mewa (futuro)
+------------------------------
+- Definir funciones auxiliares para calcular parkha y mewa del día y del año
+  según las tablas tradicionales.
+- Integrar esos resultados en una estructura más completa (por ejemplo,
+  un TibetanDateFull) cuando el proyecto lo requiera.
+
+Estado actual: este archivo solo implementa la estructura mínima; todas las
+secciones anteriores están pendientes de implementación detallada.
 """
 
 from __future__ import annotations
