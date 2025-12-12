@@ -25,6 +25,13 @@ PLAN DE IMPLEMENTACIÓN (mapa de trabajo, RESUMEN):
 - Paso 4: Añadir ciclo de 60 años, animales y elementos (más adelante).
 - Paso 5: Añadir parkha y mewa (más adelante).
 
+CANDIDATO A EPOCH_TSURPHU (nota de trabajo):
+- Aquí anotaremos, en comentarios, la fecha tibetana concreta que tomaremos
+  como epoch de referencia una vez hayamos identificado en Henning/TCG una
+  fecha especialmente estable y tradicional (por ejemplo, un año nuevo
+  tibetano bien documentado en el sistema Phugpa/Tsurphu).
+- Hasta entonces, EPOCH_TSURPHU mantiene todos sus campos numéricos a None.
+
 Estado actual: este archivo define la estructura mínima, un epoch simbólico
 EPOCH_TSURPHU, y el esqueleto de funciones internas para el conteo.
 """
