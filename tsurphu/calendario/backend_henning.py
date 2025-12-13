@@ -184,12 +184,26 @@ class HenningBackend(TibetanCalendarBackend):
         """Resuelve (año tibetano, mes lunar, día lunar) a partir de
         `dias_desde_epoch`.
 
+        BOCETO DEL ALGORITMO (aún sin implementar):
+
+        1. Inicializar un contador de años tibetanos y una secuencia de
+           meses (lista de TibetanMonthSpec) relativa a EPOCH_TSURPHU.
+        2. Recorrer la secuencia de meses, restando longitud_dias de
+           `dias_desde_epoch` hasta que el valor restante sea menor que
+           la longitud del mes actual. Ese mes será el mes "activo".
+        3. El valor restante indicará el día (offset) dentro del mes:
+
+               dia_index = int(dias_restantes)
+               # Luego mapear a dia_lunar (1..30) y tipo_dia
+
+        4. A partir del número de meses transcurridos desde el epoch,
+           derivar el año tibetano absoluto y el número de mes (1..12) y
+           si es bisiesto o no.
+
         Versión actual (esqueleto): devuelve siempre (0, 0, 0).
 
-        Más adelante aquí se implementará:
-        - el avance/retroceso mes a mes según las tablas de Henning/TCG,
-        - el tratamiento de meses bisiestos (duplicados),
-        - el tratamiento de días repetidos y omitidos.
+        Más adelante aquí se implementará la lógica real basada en las
+        tablas de Henning/TCG.
         """
 
         return 0, 0, 0
