@@ -34,7 +34,7 @@ class StellariumRCError(RuntimeError):
 
 @dataclass(frozen=True)
 class StellariumRCConfig:
-    host: str = "localhost"
+    host: str = "127.0.0.1"
     port: int = 8090
     timeout_s: float = 2.5
 
