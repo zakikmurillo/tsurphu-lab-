@@ -10,6 +10,10 @@ description = "Tsurphu lab engines and tools"
 readme = "README.md"
 license = { text = "Proprietary" }
 dependencies = []
+[project.scripts]
+tsurphu = "orchestration.cli:main"
+
+
 
 [tool.setuptools]
 package-dir = {"" = "src"}
