@@ -48,3 +48,11 @@ venv/
 # --- OS ---
 .DS_Store
 Thumbs.db
+# Python build / packaging artifacts
+*.egg-info/
+build/
+dist/
+
+# Python caches
+__pycache__/
+.pytest_cache/

@@ -1,4 +1,0 @@
-audit
-engines
-orchestration
-ui
