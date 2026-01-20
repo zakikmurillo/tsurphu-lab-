@@ -1,4 +1,4 @@
-import argparse
+﻿import argparse
 import json
 from typing import Any, Dict
 
@@ -31,11 +31,21 @@ def _tibetan_year_to_dict(obj: Any) -> Dict[str, Any]:
     return {"value": str(obj)}
 
 
+def _normalize_tibetan_year_json(data: Dict[str, Any]) -> Dict[str, Any]:
+    """
+    Canonicalize JSON output for stability in tests and downstream tools.
+    """
+    element = data.get("element")
+    if isinstance(element, str):
+        data["element"] = element.lower()
+    return data
+
+
 def cmd_tibetan_year(args: argparse.Namespace) -> int:
     ty = tibetan_year(args.year)
 
     if args.json:
-        data = _tibetan_year_to_dict(ty)
+        data = _normalize_tibetan_year_json(_tibetan_year_to_dict(ty))
         print(json.dumps(data, ensure_ascii=False, indent=2, sort_keys=True))
     else:
         print(ty)
