@@ -30,3 +30,21 @@ Thumbs.db
 # Logs / temp
 *.log
 *.tmp
+# --- Python ---
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.bak
+
+# --- Virtual env ---
+.venv/
+venv/
+
+# --- Local logs / runs ---
+*.log
+*.jsonl
+
+# --- OS ---
+.DS_Store
+Thumbs.db
